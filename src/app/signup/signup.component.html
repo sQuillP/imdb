@@ -1,0 +1,29 @@
+<div class="main">
+    <form [formGroup]="loginUser">
+        <div class="content">
+            <div class="dismiss-popup" (click)="onDismissPopup()">
+                <i class="fas fa-x"></i>
+            </div>
+            <div class="field-container">
+                <div class="icon-wrapper">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <h2 class="prompt-title">Enter your email</h2>
+                <input formControlName="email" class="field" type="email" placeholder="name@emailservice.com">
+            </div>
+            <div class="field-container">
+                <div class="icon-wrapper">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h2 class="prompt-title">Enter your password</h2>
+                <input formControlName="password" class="field" type="password" placeholder="Password">
+            </div>
+            <div class="field-container">
+                <button *ngIf="mode==='login'" (click)="onSubmit('login')" class="btn login-btn">Login</button>
+                <button *ngIf="mode==='signup'" (click)="onSubmit('signup')" class="btn signup-btn">Signup</button>
+                <p class="switch-help" *ngIf="mode==='login'">New to this site? <a class="switch-mode" (click)="mode = 'signup'">Click here to sign up</a></p>
+                <p class="switch-help" *ngIf="mode==='signup'">Got an account? <a class="switch-mode" (click)="mode= 'login'">Click here to login</a></p>
+            </div> 
+        </div>
+    </form>
+</div>

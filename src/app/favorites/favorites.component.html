@@ -1,0 +1,41 @@
+<div class="main">
+    <div *ngIf="!isLoggedIn" class="not-logged">
+        <div class="icon-wrapper">
+            <i class="faded fa-solid fa-circle-exclamation"></i>
+        </div>
+        <h1 class="faded">You Are Not Logged In</h1>
+        <p class="faded">To use this feature, please login or sign up at the top right corner to start adding your favorite movies!</p>
+    </div>
+
+    <div *ngIf="movieList.length===0&&isLoggedIn" class="no-movies">
+        <h1 class="faded">No Favorite Movies Available.</h1>
+        <p class="faded">Search your favorite titles and start adding your favorite movies.</p>
+    </div>
+    <!-- *ngIf="!!movieList" -->
+
+    <div 
+    class="content-container"
+    *ngIf="movieList.length>0&&isLoggedIn"
+    >
+        <div class="header">
+            <h1>My Favorite List of Movies <i class="icon fa-solid fa-lightbulb"></i><i class="icon fa-solid fa-video"></i><i class="icon fa-solid fa-clapperboard"></i></h1>
+        </div>
+        <div class= "favorite-movies">
+            <div
+            *ngFor="let movie of movieList; let i = index;" 
+            class="movie-container"
+            >
+                <div class="movie-img" (click)="onSelectFavoriteMovie(movie.id)">
+                    <!-- {{movie.image}} -->
+                    <img src={{movie.image}} alt="">
+                </div>
+                <div class="movie-title">
+                    <!-- {{movie.title | formatTitle}} -->
+                    <p>{{movie.title | formatTitle}}</p>
+                </div>
+                <button (click)="onDeleteFavoriteMovie(movie.movieId,i)" class="remove-btn">Remove<i class="icon fa-solid fa-ban"></i></button>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,67 @@
+<div class="main">
+
+    <app-loading *ngIf="!resolvedInfo"></app-loading>
+
+    <div class="close-btn" (click)="closeComponent()">
+        <i class="fa-solid fa-xmark"></i>
+    </div>
+
+    <div *ngIf="resolvedInfo" class="ratings">
+        <div class="icon-wrapper">
+            <i class="fa-solid fa-star"></i>
+        </div>
+        <div class="rating-data">
+            <p><span id="rating">{{movieData.imDbRating}}</span>/10</p>
+            <p class="small">From ({{movieData.imDbRatingVotes}}) Reviews</p>
+        </div>
+    </div>
+
+    <div *ngIf="resolvedInfo" class="columns">
+        <div class="col imgcol">
+            <div class="image-wrapper">
+                <img src={{movieData.image}} alt="">
+            </div>
+        </div>
+        <div class="col col2">
+            <div class="col-item">
+                <h1 class="title">{{movieData.title}}</h1>
+                <p class="small">{{movieData.contentRating}} | {{movieData.runtimeStr}}| {{movieData.genres}} | {{movieData.year}}</p>
+            </div>
+
+            <div class="col-item">
+                <p class="title">Plot</p>
+                <p>{{movieData.plot}}</p>
+            </div>
+
+            <div class="col-item">
+                <p class="title">Directed By:</p>
+                <p>{{movieData.directors | checkEmpty}}</p>
+            </div>
+
+            <div class="col-item">
+                <p class="title">Writers:</p>
+                <p class="content">{{movieData.writers | checkEmpty}}</p>
+            </div>
+
+            <div class="col-item">
+                <p class="title">Actors:</p>
+                <div *ngIf="movieData.actorList.length" class="image-track">
+                    <div 
+                    class="img-card"
+                    *ngFor="let actor of movieData.actorList">
+                        <div class="img-thumbnail">
+                            <img src={{actor.image}} alt="">
+                        </div>
+                        <p>{{actor.name}}</p>
+                    </div>
+                </div>
+                <p *ngIf="!movieData.actorList.length" class="content">N/A</p>
+            </div>
+
+            <div class="col-item">
+                <p class="title">Box Office:</p>
+                <p class="content">{{movieData.boxOffice.cumulativeWorldwideGross | checkEmpty}}</p>
+            </div>
+        </div>
+    </div>
+</div>

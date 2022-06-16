@@ -1,0 +1,22 @@
+<div class="header">
+    <ul class="navigation left">
+        <li><a class="navLink" routerLinkActive="selected" routerLink="/search">Search</a></li>
+        <li><a class="navLink" routerLinkActive="selected" routerLink="/about">About</a></li>
+        <li><a class="navLink" routerLinkActive="selected" routerLink="/favorites">Favorites</a></li>
+    </ul>
+    <ul class="navigation right">
+        <li *ngIf="!isLoggedIn"><button (click)="onDisplayLoginForm('login')" class="btn login">Login</button></li>
+        <li *ngIf="!isLoggedIn"><button (click)="onDisplayLoginForm('signup')" class="btn signup">Signup</button></li>
+        <li *ngIf="isLoggedIn"><button  (click)="onSignOut()" class="btn signup">Sign Out</button></li>
+    </ul>
+</div>
+<div *ngIf="errorMessage" class="error-message">
+    <div class="close-error" (click)="onDismissError()">
+        <i class="fa-solid fa-xmark"></i>
+    </div>
+    <div class="error-content">
+        ERROR: {{errorMessage}}
+    </div>
+</div>
+<app-signup *ngIf="displayPopup" [mode]="mode" (dismissPopup)="onDismissLoginForm($event)"></app-signup>
+

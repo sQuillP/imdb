@@ -1,0 +1,56 @@
+<div class="main">
+
+    <!-- <div *ngIf="errorMessage" class="error-message">
+        <div class="close-error" (click)="onDismissError()">
+            <i class="fa-solid fa-xmark"></i>
+        </div>
+        <div class="error-content">
+            ERROR: {{errorMessage}}
+        </div>
+    </div> -->
+    <div class="search-content">
+        <div class="title">
+            <label for="search">
+                <h1>Find any Movie:</h1>
+            </label>
+        </div>
+        <div class="search-wrapper">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input
+                [(ngModel)]="searchTerm"
+                #inputref
+                type="text"
+                class="searchbar"
+                placeholder=" Search"
+                id="search"
+                autocomplete="off"
+                >
+        </div>
+    </div>
+    <!-- *ngIf="isFetchingData" -->
+    <app-loading *ngIf="isFetchingData"></app-loading>
+
+    <div *ngIf="!isFetchingData&&movieData.length===0&&searchTerm!==''">
+        <p>No matches found for "{{searchTerm}}". Please shorten the title or check spelling</p>
+    </div>
+
+    <div *ngIf="!isFetchingData&&movieData.length!==0" class="search-results">
+        <div 
+        *ngFor="let movie of movieData; let i = index;" 
+        class="movie-container"
+        >
+            <div (click)="navigateMovieInfo(movie.id)" class="movie-img">
+                <img src={{movie.image}} alt="">
+            </div>
+            <div class="movie-title">
+                <p>{{movie.title | formatTitle}}</p>
+            </div>
+            <div class="favorite-btn">
+                <button (click)="onAddFavoriteMovie(movie)" class="btn-favorite">
+                    <i class="fa-solid fa-fire"></i>
+                    <p>ADD TO FAVORITES</p>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

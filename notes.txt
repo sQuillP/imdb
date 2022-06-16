@@ -1,0 +1,12 @@
+* search a movie, have movies appear from searching
+
+* when user clicks on a movie, they can view all the info regarding the movie
+
+* API endpoints:
+
+ - /fullcast
+ - /ratings?
+ - /trailer? can be imdb or youtube
+ - 
+
+http://ng-movie-project-com.stackstaging.com/movie/tt5900726

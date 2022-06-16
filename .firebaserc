@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "imdb-app-514f1": {
+      "hosting": {
+        "imdb": [
+          "imdb-app-514f1"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "imdb-app-514f1"
+  }
+}

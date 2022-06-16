@@ -1,0 +1,132 @@
+.main {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(30, 40, 30,.5);
+    z-index: 2;
+}
+
+.content {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #444444;
+    padding: 30px 40px;
+    border-radius: 10px;
+    margin-bottom: 50px;
+    animation: 200ms popup linear;
+}
+
+
+@keyframes popup {
+    0% {
+        opacity: 0;
+        transform: scale(1.4);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1.0);
+    }
+}
+
+.field-container {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    /* text-align: center; */
+}
+
+.switch-mode {
+    text-decoration: none;
+    color: lightblue;
+    cursor: pointer;
+}
+
+
+.switch-help {
+    color: white;
+    font-size: 1.1em;
+}
+
+
+.field {
+    padding: 10px;
+    padding-left: 30px;
+    outline: none;
+    border: none;;
+    transition: all 200ms linear;
+    margin: 10px 0px;
+    border-radius: 5px;
+    font-size: 1.2em
+    ;
+}
+
+.field:focus {
+    box-shadow: 0 0 .3em 4px rgba(39, 183, 240, 0.533);
+}
+
+
+.dismiss-popup {
+    color: white;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+
+.prompt-title{
+    color: white;
+    margin: 0;;
+}
+
+.btn {
+    border: none;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    color: white;
+    transition: 50ms background linear;
+}
+
+.login-btn:hover{
+    background-color: var(--blue-secondary);
+    color: whitesmoke;
+}
+
+.login-btn {
+    /* background: rgb(2, 102, 252); */
+    background: var(--red-primary);
+    transition: 100ms linear background;
+}
+
+.login-btn:hover {
+    background:#c74326;
+}
+
+.signup-btn {
+    background: #eee;
+    color: black
+}
+
+.signup-btn:hover {
+    background-color: lightgray;
+}
+
+.icon-wrapper {
+    position: absolute;
+    top: 49px;
+    left: 8px;
+    color: #444444;
+}
