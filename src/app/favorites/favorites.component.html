@@ -7,16 +7,21 @@
         <p class="faded">To use this feature, please login or sign up at the top right corner to start adding your favorite movies!</p>
     </div>
 
-    <div *ngIf="movieList.length===0&&isLoggedIn" class="no-movies">
+    <div *ngIf="noData&&isLoggedIn" class="no-movies">
         <h1 class="faded">No Favorite Movies Available.</h1>
         <p class="faded">Search your favorite titles and start adding your favorite movies.</p>
     </div>
     <!-- *ngIf="!!movieList" -->
 
-    <div 
+    <!-- <div 
     class="content-container"
     *ngIf="movieList.length>0&&isLoggedIn"
+    > -->
+    <div class="content-container"
+    *ngIf="isLoggedIn&&!noData && (movieList$ | async) as movieList"
     >
+
+
         <div class="header">
             <h1>My Favorite List of Movies <i class="icon fa-solid fa-lightbulb"></i><i class="icon fa-solid fa-video"></i><i class="icon fa-solid fa-clapperboard"></i></h1>
         </div>

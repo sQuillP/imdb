@@ -1,6 +1,7 @@
+import { asLiteral } from '@angular/compiler/src/render3/view/util';
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, debounceTime, filter, fromEvent, mergeMap, Subscription, tap } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { MessageService } from '../message.service';
 import { MovieService } from '../movie-service';
@@ -16,6 +17,7 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   searchTerm:string = "";
   movieData:[] = [];
+  movieData$ = new BehaviorSubject<any>(null);
   isFetchingData:boolean = false;
 
   // errorMessage:string = "";
@@ -31,65 +33,50 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
     private movieService:MovieService,
     private messageService:MessageService,
     private auth:AuthService,
-    private renderer: Renderer2,
     private router:Router,
     private route:ActivatedRoute
     ) {}
 
 
   ngOnInit(): void {
-    // this.errorMessage = this.errorService.error;
-    // this.errorSubscription = this.errorService.errorSubject.subscribe(error => {
-    //   this.errorMessage = error;
-    // })
+
   }
 
   ngAfterViewInit(): void {
 
-      console.log('after view init')
-      this.keypressListener = this.renderer.listen(this.inputRef.nativeElement,'keydown',(event)=> {
-        
-        if(this.keypressTimeout)
-          clearTimeout(this.keypressTimeout);
-        
-        if(event.key === 'Backspace'){
+      fromEvent(this.inputRef.nativeElement,'keypress').pipe(
+        filter((event:any)=> event.key.toLowerCase() !=='backspace'),
+        tap(()=>{ this.isFetchingData = true;}),
+        debounceTime(1000),
+        mergeMap(e => this.movieService.searchTitle(this.searchTerm))
+      )
+      .subscribe({
+        next:(response)=> {
+          this.movieData$.next(response.results);
+          this.isFetchingData =false;
+        },
+        error:(error)=> {
           this.isFetchingData = false;
-          return;
+          this.messageService.notifyError("Error fetching data from database");
         }
-        this.isFetchingData = true;
-
-        this.keypressTimeout = setTimeout(()=> {
-          this.movieService.searchTitle(this.searchTerm).subscribe((data)=> {
-            console.log(data);
-            this.movieData = data.results;
-            this.isFetchingData =false;
-          });
-        },500);
-      });
+      })
 
   }
 
   onAddFavoriteMovie(movie:Object):void{
-    if(!this.auth.isLoggedIn){
+    console.log(this.auth.isLoggedIn.value)
+    if(!this.auth.isLoggedIn.value){
       this.messageService.notifyError("You must be logged in to add your favorite movies!");
       return;
     }
     this.movieService.addFavoriteMovie(movie);
-    
   }
 
-  // onDismissError():void{
-  //   this.errorMessage = "";
-  //   this.errorService.clearError();
-  // }
-
   navigateMovieInfo(id:string):void{
-    // this.onDismissError();
     this.router.navigate([id], {relativeTo:this.route});
   }
 
   ngOnDestroy(): void {
-      this.keypressListener();
   }
 
 

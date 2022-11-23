@@ -11,8 +11,10 @@
             <i class="fa-solid fa-star"></i>
         </div>
         <div class="rating-data">
-            <p><span id="rating">{{movieData.imDbRating}}</span>/10</p>
-            <p class="small">From ({{movieData.imDbRatingVotes}}) Reviews</p>
+            <p *ngIf="movieData.imDbRating"><span id="rating">{{movieData.imDbRating}}</span>/10</p>
+            <p *ngIf="!movieData.imDbRating">No rating</p>
+            <p class="small" *ngIf="movieData.imDbRatingVotes">From ({{movieData.imDbRatingVotes}}) Reviews</p>
+            <p class="small" *ngIf="!movieData.imDbRatingVotes">No Reviews</p>
         </div>
     </div>
 
@@ -30,7 +32,7 @@
 
             <div class="col-item">
                 <p class="title">Plot</p>
-                <p>{{movieData.plot}}</p>
+                <p>{{movieData.plot?movieData.plot:"N/A"}}</p>
             </div>
 
             <div class="col-item">

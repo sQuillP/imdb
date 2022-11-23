@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
-import { Subject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import { MessageService } from "./message.service";
 // Import the functions you need from the SDKs you need
 
@@ -12,7 +12,7 @@ export class AuthService {
 
     userData:any;
 
-    isLoggedIn = new Subject<boolean>();
+    isLoggedIn = new BehaviorSubject<boolean>(false);
 
     
     constructor(

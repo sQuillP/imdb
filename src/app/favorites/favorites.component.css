@@ -25,6 +25,12 @@
     text-align: center;
 }
 
+.favorite-movies{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
 
 .movie-container {
     display: flex;

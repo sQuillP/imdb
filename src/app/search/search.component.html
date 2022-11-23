@@ -30,11 +30,14 @@
     <!-- *ngIf="isFetchingData" -->
     <app-loading *ngIf="isFetchingData"></app-loading>
 
-    <div *ngIf="!isFetchingData&&movieData.length===0&&searchTerm!==''">
+    <div *ngIf="!isFetchingData&&movieData$.value?.length===0&&searchTerm!==''">
         <p>No matches found for "{{searchTerm}}". Please shorten the title or check spelling</p>
     </div>
 
-    <div *ngIf="!isFetchingData&&movieData.length!==0" class="search-results">
+    <!-- <div *ngIf="!isFetchingData&&movieData.length!==0" class="search-results"> -->
+    <div *ngIf="!isFetchingData && (movieData$ | async) as movieData" class="search-results">
+
+        
         <div 
         *ngFor="let movie of movieData; let i = index;" 
         class="movie-container"

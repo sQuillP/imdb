@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { MovieService } from '../movie-service';
 
@@ -12,18 +12,23 @@ import { MovieService } from '../movie-service';
 export class FavoritesComponent implements OnInit {
 
   isLoggedIn:boolean = false;
+  noData:boolean = true;
   loggedInSubscription:Subscription;
-  movieList:Array<any> = [];
+  // movieList:Array<any> = [];
+  movieList$ = new BehaviorSubject<any>(null);
+
   constructor(
     private auth:AuthService,
     private movieService:MovieService,
     private router:Router
   ) { 
 
-    this.isLoggedIn = !!this.auth.userData
+    this.isLoggedIn = !!this.auth.userData;
+    // this.isLoggedIn = this.auth.isLoggedIn.value
     this.loggedInSubscription = this.auth.isLoggedIn.subscribe(isLoggedIn=> {
       this.isLoggedIn = isLoggedIn;
-      this.loadFavoriteMovies();
+      if(isLoggedIn)
+        this.loadFavoriteMovies();
     })
   }
 
@@ -34,12 +39,19 @@ export class FavoritesComponent implements OnInit {
   }
 
   loadFavoriteMovies():void{
+    console.log('fetching movies')
     this.movieService.fetchMovies().then((movies:any) => {
-      if(movies === null) return;
+      if(movies === null) {
+        this.noData = true;
+        return;
+      };
+      this.noData = false;
+      const movieArr = [];
       for(let key of Object.keys(movies)){
-        this.movieList.push({movieId: key, ...movies[key]});
+        movieArr.push({movieId: key, ...movies[key]});
         console.log(key)
       }
+      this.movieList$.next(movieArr);
     });
   }
 
@@ -49,7 +61,12 @@ export class FavoritesComponent implements OnInit {
 
   onDeleteFavoriteMovie(movieId:string, index:number) {
     this.movieService.deleteFavoriteMovie(movieId);
-    this.movieList.splice(index,1);
+    // this.movieList.splice(index,1);
+    const temp = [...this.movieList$.value];
+    temp.splice(index,1);
+    this.movieList$.next(temp);
+    if(temp.length === 0)
+      this.noData = true;
   }
 
 }
